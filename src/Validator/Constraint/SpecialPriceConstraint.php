@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraint;
  * Class SpecialPriceConstraint
  *
  * @package App\Validator\Constraint
+ * @Annotation
  */
 class SpecialPriceConstraint extends Constraint
 {

@@ -13,6 +13,7 @@ services:
 #            - php
     php:
         build: docker/php7-fpm
+        container_name: ${PHP_CONTAINER}
         volumes:
             - ./:/var/www/symfony
         env_file:
