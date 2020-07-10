@@ -1,0 +1,5 @@
+172.24.0.1 - - [06/Jul/2020:13:47:26 +0000] "GET / HTTP/1.1" 500 104776 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"
+172.24.0.1 - - [06/Jul/2020:14:07:02 +0000] "GET / HTTP/1.1" 404 32053 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"
+172.24.0.1 - - [06/Jul/2020:14:07:02 +0000] "GET /favicon.ico HTTP/1.1" 404 186907 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"
+172.24.0.1 - - [09/Jul/2020:12:51:02 +0000] "GET /css/app.css HTTP/1.1" 499 0 "http://127.0.0.1/login" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"
+172.24.0.1 - - [09/Jul/2020:12:51:02 +0000] "GET /favicon.ico HTTP/1.1" 499 0 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"
