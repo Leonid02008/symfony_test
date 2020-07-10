@@ -13,9 +13,8 @@ interface ImportServiceInterface
 {
     /**
      * @param ReaderInterface $reader
-     * @param SymfonyStyle $output
      *
      * @return ImportResults
      */
-    public function execute(ReaderInterface $reader, SymfonyStyle $output): ImportResults;
+    public function execute(ReaderInterface $reader): ImportResults;
 }

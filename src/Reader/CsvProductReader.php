@@ -2,8 +2,11 @@
 
 namespace App\Reader;
 
-use App\DTO\Product;
+use App\DTO\Product as DTOProduct;
+use App\Factory\ProductFactoryInterface;
 use Generator;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\ErrorHandler\Error\FatalError;
 
 /**
  * Class CsvProductReader
@@ -14,6 +17,21 @@ class CsvProductReader implements ReaderInterface
      * @var string
      */
     private $file;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * CsvProductReader constructor.
+     *
+     * @param LoggerInterface $logger
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 
     /**
      * {@inheritDoc}
@@ -31,9 +49,16 @@ class CsvProductReader implements ReaderInterface
         $data = file_get_contents($this->file);
         $rows = explode("\n",$data);
 
-        foreach($rows as $row) {
-            $explodedRow = str_getcsv($row);
-            yield new Product(...$explodedRow);
+        foreach($rows as $index => $row) {
+            try {
+                $explodedRow = str_getcsv($row);
+                $product = new DTOProduct(...$explodedRow);
+            } catch (\Error $exception) {
+                $this->logger->warning("Error during product reading. Row index: " . $index);
+                continue;
+            }
+            yield $product;
+
         }
     }
 }

@@ -8,7 +8,7 @@ use App\Entity\Product;
 use App\Factory\ProductFactoryInterface;
 use App\Reader\ReaderInterface;
 use App\Repository\ProductRepositoryInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -48,32 +48,35 @@ class ProductImportService implements ImportServiceInterface
     private $productFactory;
 
     /**
-     * @var SymfonyStyle
+     * @var LoggerInterface
      */
-    private $output;
+    private $logger;
 
     /**
      * ProductImportService constructor.
+     *
      * @param ValidatorInterface $validator
      * @param ProductRepositoryInterface $productRepository
      * @param ProductFactoryInterface $productFactory
+     * @param LoggerInterface $logger
      */
     public function __construct(
         ValidatorInterface $validator,
         ProductRepositoryInterface $productRepository,
-        ProductFactoryInterface $productFactory
+        ProductFactoryInterface $productFactory,
+        LoggerInterface $logger
     ) {
         $this->validator = $validator;
         $this->productRepository = $productRepository;
         $this->productFactory = $productFactory;
+        $this->logger = $logger;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function execute(ReaderInterface $reader, SymfonyStyle $output): ImportResults
+    public function execute(ReaderInterface $reader): ImportResults
     {
-        $this->output = $output;
 
         $this->createdSKUs = [];
         $this->updatedSKUs = [];
@@ -83,6 +86,13 @@ class ProductImportService implements ImportServiceInterface
         foreach ($reader->getRecords() as $record) {
             $this->processRecord($record);
         }
+
+        $this->logger->info(
+            "import was successful\n" .
+            "created records: " . count($this->createdSKUs) . "\n" .
+            "updated records: " . count($this->updatedSKUs) . "\n" .
+            "errors in records: " . $this->errorCount . "\n"
+        );
 
         return new ImportResults($this->errorCount,count($this->createdSKUs),count($this->updatedSKUs));
     }
@@ -100,7 +110,7 @@ class ProductImportService implements ImportServiceInterface
         $errors = $this->validator->validate($product);
 
         if(count($errors) > 0) {
-            $this->printErrors($errors);
+            $this->printErrors($errors, $product);
             $this->errorCount++;
             return;
         }
@@ -137,11 +147,11 @@ class ProductImportService implements ImportServiceInterface
     /**
      * @param ConstraintViolationListInterface $errors
      */
-    private function printErrors(ConstraintViolationListInterface $errors): void
+    private function printErrors(ConstraintViolationListInterface $errors, Product $product): void
     {
         /** @var ConstraintViolation $error */
         foreach ($errors as $error) {
-            $this->output->warning( $error->getMessage());
+            $this->logger->warning( "Product SKU: " . $product->SKU() . " message: " .  $error->getMessage());
         }
     }
 }

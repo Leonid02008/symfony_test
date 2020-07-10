@@ -45,6 +45,7 @@ class Product
      * @ORM\Column(type="float", nullable=true)
      *
      * @SpecialPriceConstraint
+     * @Constraints\Positive(message="special price isn't positive")
      */
     private $specialPrice;
 

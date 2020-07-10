@@ -79,14 +79,8 @@ class ImportCommand extends Command
 
             $this->reader->setFile($file);
 
-            $importResults = $this->productImportService->execute($this->reader, $io);
+            $this->productImportService->execute($this->reader);
 
-            $io->success(
-                "import was successful\n" .
-                "created records: " . $importResults->created() . "\n" .
-                "updated records: " . $importResults->updated() . "\n" .
-                "errors in records: " . $importResults->errors() . "\n"
-            );
         } catch (InvalidFileException $exception) {
             $io->error("invalid file");
             return 1;

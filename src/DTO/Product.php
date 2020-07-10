@@ -36,13 +36,13 @@ class Product
      * @param float|null $specialPrice
      */
     public function __construct(
-        string $SKU,
-        string $description,
-        float $price,
+        string $SKU = "",
+        string $description = "",
+        float $price = NULL,
         ?float $specialPrice = NULL
     ) {
-        $this->SKU = $SKU;
-        $this->description = $description;
+        $this->SKU = (string)$SKU;
+        $this->description = (string)$description;
         $this->price = $price;
         $this->specialPrice = $specialPrice;
     }
