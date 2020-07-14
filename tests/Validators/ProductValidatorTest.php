@@ -53,13 +53,13 @@ class ProductValidatorTest extends TestCase
         parent::setUp();
     }
 
-    public function testSpecialPriceValidator(){
-
+    public function testSpecialPriceValidator()
+    {
         $this->assertTrue($this->specialPriceValidator->validate(10, $this->constraint));
 
         $this->context->expects($this->once())
             ->method("addViolation")->willReturnCallback(
-                function($message) {
+                function ($message) {
                     $this->assertEquals($this->constraint->message, $message);
                 }
             );
@@ -67,12 +67,12 @@ class ProductValidatorTest extends TestCase
         $this->assertFalse($this->specialPriceValidator->validate(12, $this->constraint));
     }
 
-    public function testSpecialPriceValidatorException() {
+    public function testSpecialPriceValidatorException()
+    {
         $wrongConstraint = $this->createMock(Constraint::class);
 
         $this->expectException(UnexpectedTypeException::class);
 
         $this->specialPriceValidator->validate(12, $wrongConstraint);
     }
-
 }
