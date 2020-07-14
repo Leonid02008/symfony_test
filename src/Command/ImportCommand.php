@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Exception\InvalidFileException;
+use App\Reader\FileReaderInterface;
 use App\Reader\ReaderInterface;
 use App\Service\ImportServiceInterface;
 use App\Validator\FileValidator\FileValidator;
@@ -26,7 +27,7 @@ class ImportCommand extends Command
     private $fileValidator;
 
     /**
-     * @var ReaderInterface
+     * @var FileReaderInterface|ReaderInterface
      */
     private $reader;
 
@@ -40,13 +41,13 @@ class ImportCommand extends Command
      *
      * @param ImportServiceInterface $productImportService
      * @param FileValidator $fileValidator
-     * @param ReaderInterface $reader
+     * @param FileReaderInterface $reader
      * @param string|null $name
      */
     public function __construct(
         ImportServiceInterface $productImportService,
         FileValidator $fileValidator,
-        ReaderInterface $reader,
+        FileReaderInterface $reader,
         string $name = null
     ) {
         $this->productImportService = $productImportService;

@@ -15,8 +15,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProductImportService implements ImportServiceInterface
 {
-    const RECORD_CREATED = "created";
-    const RECORD_UPDATED = "updated";
+    public const RECORD_CREATED = "created";
+    public const RECORD_UPDATED = "updated";
     /**
      * @var array
      */
@@ -97,6 +97,11 @@ class ProductImportService implements ImportServiceInterface
         return new ImportResults($this->errorCount,count($this->createdSKUs),count($this->updatedSKUs));
     }
 
+    /**
+     * @param DTOProduct $record
+     *
+     * @throws \Exception
+     */
     private function processRecord(DTOProduct $record): void
     {
         if($product = $this->productRepository->find($record->SKU())) {
@@ -121,6 +126,11 @@ class ProductImportService implements ImportServiceInterface
 
     }
 
+    /**
+     * @param Product $product
+     *
+     * @param string $type
+     */
     private function fillResponseData(Product $product, string $type): void
     {
         if(in_array($product->SKU(), $this->createdSKUs) || in_array($product->SKU(), $this->updatedSKUs)){
@@ -137,6 +147,11 @@ class ProductImportService implements ImportServiceInterface
         }
     }
 
+    /**
+     * @param Product $product
+     *
+     * @param DTOProduct $record
+     */
     private function updateRecord(Product &$product, DTOProduct $record): void
     {
         $product->setDescription($record->description());

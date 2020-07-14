@@ -3,15 +3,13 @@
 namespace App\Reader;
 
 use App\DTO\Product as DTOProduct;
-use App\Factory\ProductFactoryInterface;
 use Generator;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\ErrorHandler\Error\FatalError;
 
 /**
  * Class CsvProductReader
  */
-class CsvProductReader implements ReaderInterface
+class CsvProductReader implements ReaderInterface, FileReaderInterface
 {
     /**
      * @var string
