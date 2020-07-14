@@ -6,6 +6,7 @@ use Exception;
 
 /**
  * Class InvalidFileException
+ * @package App\Exception
  */
 class InvalidFileException extends Exception
 {

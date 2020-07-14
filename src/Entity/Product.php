@@ -8,6 +8,10 @@ use Symfony\Component\Validator\Constraints;
 use App\Validator\Constraint\SpecialPriceConstraint;
 
 /**
+ * Class Product
+ *
+ * @package App\Entity
+ *
  * @ORM\Entity(repositoryClass=ProductRepositoryInterface::class)
  * @ORM\Table(name="product")
  */
@@ -19,7 +23,6 @@ class Product
      * @ORM\Id
      * @ORM\Column(type="string", length=128, unique=true, nullable=false)
      * @Constraints\NotBlank(message="SKU is blank")
-     *
      */
     private $SKU;
 

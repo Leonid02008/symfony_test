@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\DTO\ImportResults;
 use App\Reader\ReaderInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Interface ImportInterface

@@ -7,6 +7,7 @@ use App\Entity\Product;
 
 /**
  * Interface ProductFactoryInterface
+ *
  * @package App\Factory
  */
 interface ProductFactoryInterface

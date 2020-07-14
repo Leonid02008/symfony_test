@@ -2,10 +2,10 @@
 
 namespace App\Reader;
 
-use Generator;
-
 /**
- * Interface ReaderInterface
+ * Interface FileReaderInterface
+ *
+ * @package App\Reader
  */
 interface FileReaderInterface
 {

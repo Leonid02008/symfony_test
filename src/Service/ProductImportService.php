@@ -13,6 +13,11 @@ use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * Class ProductImportService
+ *
+ * @package App\Service
+ */
 class ProductImportService implements ImportServiceInterface
 {
     public const RECORD_CREATED = "created";
@@ -164,6 +169,7 @@ class ProductImportService implements ImportServiceInterface
 
     /**
      * @param ConstraintViolationListInterface $errors
+     * @param Product $product
      */
     private function printErrors(ConstraintViolationListInterface $errors, Product $product): void
     {

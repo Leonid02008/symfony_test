@@ -7,6 +7,7 @@ use App\Entity\Product;
 
 /**
  * Class ProductFactory
+ *
  * @package App\Factory
  */
 class ProductFactory implements ProductFactoryInterface

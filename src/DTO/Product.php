@@ -3,7 +3,9 @@
 namespace App\DTO;
 
 /**
- * Class SpecialPriceConstraint
+ * Class Product
+ *
+ * @package App\DTO
  */
 class Product
 {

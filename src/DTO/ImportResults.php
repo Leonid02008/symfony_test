@@ -4,26 +4,29 @@ namespace App\DTO;
 
 /**
  * Class ImportResults
+ *
+ * @package App\DTO
  */
 class ImportResults
 {
     /**
-     * @var integer
+     * @var int
      */
     private $errors;
 
     /**
-     * @var integer
+     * @var int
      */
     private $created;
 
     /**
-     * @var integer
+     * @var int
      */
     private $updated;
 
     /**
      * ImportResults constructor.
+     *
      * @param int $errors
      * @param int $created
      * @param int $updated

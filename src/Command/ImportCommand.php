@@ -14,6 +14,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Exception;
 
+/**
+ * Class ImportCommand
+ *
+ * @package App\Command
+ */
 class ImportCommand extends Command
 {
     /**

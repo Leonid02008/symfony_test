@@ -8,6 +8,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Class CsvProductReader
+ *
+ * @package App\Reader
  */
 class CsvProductReader implements ReaderInterface, FileReaderInterface
 {
