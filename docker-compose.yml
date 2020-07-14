@@ -1,16 +1,5 @@
 version: "3"
 services:
-#    nginx:
-#        image: nginx:latest
-#        ports:
-#            - "80:80"
-#            - "443:443"
-#        volumes:
-#            - ./docker/nginx/local/nginx.conf:/etc/nginx/nginx.conf
-#            - ./docker/nginx/local/site.conf:/etc/nginx/conf.d/site.conf
-#            - ./:/var/www/symfony/
-#        links:
-#            - php
     php:
         build: docker/php7-fpm
         container_name: ${PHP_CONTAINER}
@@ -23,7 +12,6 @@ services:
     mysql:
         image: mysql:${MYSQL_VERSION}
         container_name: ${MYSQL_HOST}
-#        restart: always
         env_file:
             - ".env"
         environment:
