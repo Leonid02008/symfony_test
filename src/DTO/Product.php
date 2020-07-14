@@ -38,8 +38,8 @@ class Product
     public function __construct(
         string $SKU = "",
         string $description = "",
-        float $price = NULL,
-        ?float $specialPrice = NULL
+        float $price = null,
+        ?float $specialPrice = null
     ) {
         $this->SKU = (string)$SKU;
         $this->description = (string)$description;

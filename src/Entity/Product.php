@@ -121,4 +121,3 @@ class Product
         $this->specialPrice = $specialPrice;
     }
 }
-

@@ -77,11 +77,8 @@ class ImportCommand extends Command
 
         try {
             $this->fileValidator->validateFile($file);
-
             $this->reader->setFile($file);
-
             $this->productImportService->execute($this->reader);
-
         } catch (InvalidFileException $exception) {
             $io->error("invalid file");
             return 1;

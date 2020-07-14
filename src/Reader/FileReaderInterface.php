@@ -12,5 +12,5 @@ interface FileReaderInterface
     /**
      * @param string $file
      */
-    public function setFile(string $file):void;
+    public function setFile(string $file): void;
 }

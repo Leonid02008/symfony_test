@@ -33,7 +33,7 @@ class SpecialPriceValidator extends ConstraintValidator
 
         $price = $this->getContext()->getRoot()->price();
 
-        if ($specialPrice >= $price){
+        if ($specialPrice >= $price) {
             $this->getContext()->addViolation(
                 $constraint->message
             );
@@ -46,7 +46,8 @@ class SpecialPriceValidator extends ConstraintValidator
     /**
      * @return \Symfony\Component\Validator\Context\ExecutionContextInterface
      */
-    protected function getContext() {
+    protected function getContext()
+    {
         return $this->context;
     }
 }

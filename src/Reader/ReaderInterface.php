@@ -12,5 +12,5 @@ interface ReaderInterface
     /**
      * @return Generator
      */
-    public function getRecords():Generator;
+    public function getRecords(): Generator;
 }

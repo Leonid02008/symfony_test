@@ -94,7 +94,11 @@ class ProductImportService implements ImportServiceInterface
             "errors in records: " . $this->errorCount . "\n"
         );
 
-        return new ImportResults($this->errorCount,count($this->createdSKUs),count($this->updatedSKUs));
+        return new ImportResults(
+            $this->errorCount,
+            count($this->createdSKUs),
+            count($this->updatedSKUs)
+        );
     }
 
     /**
@@ -104,7 +108,7 @@ class ProductImportService implements ImportServiceInterface
      */
     private function processRecord(DTOProduct $record): void
     {
-        if($product = $this->productRepository->find($record->SKU())) {
+        if ($product = $this->productRepository->find($record->SKU())) {
             $this->updateRecord($product, $record);
             $type = self::RECORD_UPDATED;
         } else {
@@ -114,7 +118,7 @@ class ProductImportService implements ImportServiceInterface
 
         $errors = $this->validator->validate($product);
 
-        if(count($errors) > 0) {
+        if (count($errors) > 0) {
             $this->printErrors($errors, $product);
             $this->errorCount++;
             return;
@@ -123,7 +127,6 @@ class ProductImportService implements ImportServiceInterface
         $this->productRepository->save($product);
 
         $this->fillResponseData($product, $type);
-
     }
 
     /**
@@ -133,15 +136,15 @@ class ProductImportService implements ImportServiceInterface
      */
     private function fillResponseData(Product $product, string $type): void
     {
-        if(in_array($product->SKU(), $this->createdSKUs) || in_array($product->SKU(), $this->updatedSKUs)){
+        if (in_array($product->SKU(), $this->createdSKUs) || in_array($product->SKU(), $this->updatedSKUs)) {
             return;
         }
 
-        if($type === self::RECORD_CREATED){
+        if ($type === self::RECORD_CREATED) {
             $this->createdSKUs[] = $product->SKU();
             return;
         }
-        if($type === self::RECORD_UPDATED){
+        if ($type === self::RECORD_UPDATED) {
             $this->updatedSKUs[] = $product->SKU();
             return;
         }
@@ -166,7 +169,7 @@ class ProductImportService implements ImportServiceInterface
     {
         /** @var ConstraintViolation $error */
         foreach ($errors as $error) {
-            $this->logger->warning( "Product SKU: " . $product->SKU() . " message: " .  $error->getMessage());
+            $this->logger->warning("Product SKU: " . $product->SKU() . " message: " .  $error->getMessage());
         }
     }
 }

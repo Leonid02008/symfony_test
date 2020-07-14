@@ -26,8 +26,7 @@ class FileValidator
 
         if (filter_var($this->file, FILTER_VALIDATE_URL) === true) {
             $this->validateFileUrl();
-        }
-        else{
+        } else {
             $this->validateFileLocal();
         }
     }
@@ -38,11 +37,9 @@ class FileValidator
     private function validateFileUrl(): void
     {
         $headers = get_headers($this->file, 1);
-        if (stripos($headers[0],'200 OK') === false
-            || $headers["Content-Type"] !=='text/csv') {
+        if (stripos($headers[0], '200 OK') === false || $headers["Content-Type"] !== 'text/csv') {
             throw new InvalidFileException();
         }
-
     }
 
     /**
