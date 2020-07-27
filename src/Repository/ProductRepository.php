@@ -43,4 +43,31 @@ class ProductRepository extends ServiceEntityRepository implements ProductReposi
             throw new Exception("something wrong on creating/updating record");
         }
     }
+
+    /**
+     * @param Product $product
+     *
+     * @throws Exception
+     */
+    public function persist(Product $product): void
+    {
+        try {
+            $this->_em->persist($product);
+        } catch (Exception $e) {
+            throw new Exception("something wrong on persisting record");
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function flush(): void
+    {
+        try {
+            $this->_em->flush();
+            $this->_em->clear(Product::class);
+        } catch (Exception $e) {
+            throw new Exception("something wrong on flushing record");
+        }
+    }
 }

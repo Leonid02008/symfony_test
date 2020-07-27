@@ -22,15 +22,17 @@ class ProductImportService implements ImportServiceInterface
 {
     public const RECORD_CREATED = "created";
     public const RECORD_UPDATED = "updated";
-    /**
-     * @var array
-     */
-    private $createdSKUs;
+    public const RECORD_ERROR = "error";
 
     /**
-     * @var array
+     * @var int
      */
-    private $updatedSKUs;
+    private $createdCount;
+
+    /**
+     * @var int
+     */
+    private $updatedCount;
 
     /**
      * @var int
@@ -82,28 +84,31 @@ class ProductImportService implements ImportServiceInterface
      */
     public function execute(ReaderInterface $reader): ImportResults
     {
-
-        $this->createdSKUs = [];
-        $this->updatedSKUs = [];
         $this->errorCount = 0;
+        $this->createdCount = 0;
+        $this->updatedCount = 0;
 
+        $iterator = 0;
         /** @var DTOProduct $record */
         foreach ($reader->getRecords() as $record) {
             $this->processRecord($record);
+            ++$iterator;
+            if ($iterator % 500 === 0) {
+                $this->productRepository->flush();
+            }
+        }
+        if ($iterator % 500 !== 0) {
+            $this->productRepository->flush();
         }
 
         $this->logger->info(
             "import was successful\n" .
-            "created records: " . count($this->createdSKUs) . "\n" .
-            "updated records: " . count($this->updatedSKUs) . "\n" .
+            "created records: " . $this->createdCount . "\n" .
+            "updated records: " . $this->updatedCount . "\n" .
             "errors in records: " . $this->errorCount . "\n"
         );
 
-        return new ImportResults(
-            $this->errorCount,
-            count($this->createdSKUs),
-            count($this->updatedSKUs)
-        );
+        return new ImportResults($this->errorCount, $this->createdCount, $this->updatedCount);
     }
 
     /**
@@ -129,28 +134,21 @@ class ProductImportService implements ImportServiceInterface
             return;
         }
 
-        $this->productRepository->save($product);
-
-        $this->fillResponseData($product, $type);
+        $this->productRepository->persist($product);
+        $this->fillResponseData($type);
     }
 
     /**
-     * @param Product $product
-     *
-     * @param string $type
+     *  @param string $type
      */
-    private function fillResponseData(Product $product, string $type): void
+    private function fillResponseData(string $type): void
     {
-        if (in_array($product->SKU(), $this->createdSKUs) || in_array($product->SKU(), $this->updatedSKUs)) {
-            return;
-        }
-
         if ($type === self::RECORD_CREATED) {
-            $this->createdSKUs[] = $product->SKU();
+            $this->createdCount++;
             return;
         }
         if ($type === self::RECORD_UPDATED) {
-            $this->updatedSKUs[] = $product->SKU();
+            $this->updatedCount++;
             return;
         }
     }

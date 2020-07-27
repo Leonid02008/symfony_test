@@ -46,19 +46,17 @@ class CsvProductReader implements ReaderInterface, FileReaderInterface
      */
     public function getRecords(): Generator
     {
-        $data = file_get_contents($this->file);
-        $rows = explode("\n", $data);
-
-        foreach ($rows as $index => $row) {
+        $stream = fopen($this->file, "rt");
+        $index = 0;
+        while ($explodedRow = fgetcsv($stream)) {
             try {
-                $explodedRow = str_getcsv($row);
                 $product = new DTOProduct(...$explodedRow);
             } catch (\Error $exception) {
                 $this->logger->warning("Error during product reading. Row index: " . $index);
                 continue;
             }
-
             yield $product;
+            ++$index;
         }
     }
 }

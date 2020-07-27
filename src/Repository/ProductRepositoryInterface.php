@@ -26,4 +26,16 @@ interface ProductRepositoryInterface
      * @throws Exception
      */
     public function save(Product $product): void;
+
+    /**
+     * @param Product $product
+     *
+     * @throws Exception
+     */
+    public function persist(Product $product): void;
+
+    /**
+     * @throws Exception
+     */
+    public function flush(): void;
 }
