@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Transformers\DescriptionConverterInterface;
 use App\DTO\ImportResults;
 use App\DTO\Product as DTOProduct;
 use App\Entity\Product;
@@ -60,23 +61,31 @@ class ProductImportService implements ImportServiceInterface
     private $logger;
 
     /**
+     * @var DescriptionConverterInterface
+     */
+    private $descriptionConverter;
+
+    /**
      * ProductImportService constructor.
      *
      * @param ValidatorInterface $validator
      * @param ProductRepositoryInterface $productRepository
      * @param ProductFactoryInterface $productFactory
      * @param LoggerInterface $logger
+     * @param DescriptionConverterInterface $descriptionConverter
      */
     public function __construct(
         ValidatorInterface $validator,
         ProductRepositoryInterface $productRepository,
         ProductFactoryInterface $productFactory,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        DescriptionConverterInterface $descriptionConverter
     ) {
         $this->validator = $validator;
         $this->productRepository = $productRepository;
         $this->productFactory = $productFactory;
         $this->logger = $logger;
+        $this->descriptionConverter = $descriptionConverter;
     }
 
     /**
@@ -118,6 +127,8 @@ class ProductImportService implements ImportServiceInterface
      */
     private function processRecord(DTOProduct $record): void
     {
+        $this->transformFields($record);
+
         if ($product = $this->productRepository->find($record->SKU())) {
             $this->updateRecord($product, $record);
             $type = self::RECORD_UPDATED;
@@ -175,5 +186,14 @@ class ProductImportService implements ImportServiceInterface
         foreach ($errors as $error) {
             $this->logger->warning("Product SKU: " . $product->SKU() . " message: " .  $error->getMessage());
         }
+    }
+
+    /**
+     * @param DTOProduct $record
+     */
+    private function transformFields(DTOProduct $record): void
+    {
+        $newDescription = $this->descriptionConverter->convert($record->description());
+        $record->setDescription($newDescription);
     }
 }

@@ -29,7 +29,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=256, nullable=false)
+     * @ORM\Column(type="text", length=65535, nullable=false)
      * @Constraints\NotBlank(message="description is blank")
      */
     private $description;
